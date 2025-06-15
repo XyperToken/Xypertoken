@@ -32,7 +32,7 @@
 
   .overlay {
     position: absolute;
-    top: 0; left: 0; right:0; bottom:0;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0, 0, 0, 0.85);
     display: flex;
     flex-direction: column;
@@ -44,6 +44,7 @@
     transition: background 1.5s ease;
     width: 100%;
     height: 100%;
+    z-index: 10;
   }
 
   .title {
@@ -116,18 +117,23 @@
     animation: glitch 0.5s linear infinite;
   }
 
-  /* Стилистика за втория екран */
-
+  /* Втори екран - първоначално скрит */
   #main-content {
     display: none;
     position: absolute;
-    top: 0; left: 0; right:0; bottom:0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: #0d0d0d;
     color: #00ffcc;
     font-family: 'Courier New', monospace;
     text-align: center;
     padding: 2rem;
     overflow: hidden;
+    width: 80vw;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 0 40px #00ffccaa;
   }
 
   #main-content::before {
@@ -136,29 +142,53 @@
     top: 0; left: 0; width: 100%; height: 100%;
     background: radial-gradient(circle, #0d0d0d 0%, #000000 100%);
     z-index: -2;
+    border-radius: 12px;
   }
+
+  /* Анимирани редове с крипто текст, които се движат наляво и надясно и мигат */
 
   .crypto-msg {
     position: absolute;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1rem;
-    color: #00ffcc;
+    width: 120%;
     white-space: nowrap;
-    overflow: hidden;
-    animation: scroll-crypto 20s linear infinite;
-    opacity: 0.15;
+    font-size: 1rem;
     font-weight: bold;
+    color: #00ffcccc;
     letter-spacing: 2px;
-    z-index: 0;
     user-select: none;
+    opacity: 0.3;
+    animation-timing-function: linear;
+    text-shadow: 0 0 5px #00ffccbb;
   }
 
-  @keyframes scroll-crypto {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+  .scroll-left {
+    top: 10%;
+    left: -20%;
+    animation: scrollLeft 20s linear infinite, blink 3s ease-in-out infinite;
   }
+
+  .scroll-right {
+    bottom: 10%;
+    right: -20%;
+    animation: scrollRight 25s linear infinite, blink 4s ease-in-out infinite;
+  }
+
+  @keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-140%); }
+  }
+
+  @keyframes scrollRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(140%); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+
+  /* Заглавие и текст с ефект на бавно изчезване/поява */
 
   #main-content h1 {
     font-size: 3rem;
@@ -233,8 +263,11 @@
   </div>
 
   <div id="main-content">
-    <div class="crypto-msg">
+    <div class="crypto-msg scroll-left">
       72F4A1 B6X9Z0 XYP3R-C0D3 HxYXIyAIJIWMIxAXgSGEt== // F0ll0w 7h3 51gn4l // 01001000 01100101 01101100 01101100 01101111
+    </div>
+    <div class="crypto-msg scroll-right">
+      N4 BL0CKCH41N // 3NCRYPT3D C0MMUN1C4710N // K3Y M4N4G3M3NT 4ND 5YMM3TR1C C1PH3R5
     </div>
     <h1>W3LC0M3 T0 XYP3R</h1>
     <p>
@@ -296,8 +329,6 @@
   const decryptBtn = document.getElementById("decrypt-btn");
   const overlay = document.getElementById("overlay");
   const mainContent = document.getElementById("main-content");
-  const cryptoText = document.getElementById("crypto-text");
-  const title = document.querySelector(".title");
 
   function glitchAnimation(duration = 1200) {
     return new Promise(resolve => {
@@ -312,15 +343,14 @@
   decryptBtn.addEventListener("click", async () => {
     decryptBtn.disabled = true;
 
-    // Стартираме глитч анимация
     await glitchAnimation();
 
-    // Плавно скриваме overlay и спираме падащите букви
     overlay.style.transition = "opacity 1s ease";
     overlay.style.opacity = 0;
-    matrixInterval && clearInterval(matrixInterval);
 
-    // Показваме основното съдържание
+    clearInterval(matrixInterval);
+
+    // Показваме основното съдържание, което вече е центрирано с CSS
     mainContent.style.display = "block";
     mainContent.style.opacity = 0;
     mainContent.style.transition = "opacity 1.5s ease";
