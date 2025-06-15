@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XYP3R // T0K3N 3XP10R3R</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0d0d0d;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+
+    canvas.matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      text-shadow: 0 0 15px #00ffcc;
+    }
+
+    .tokenomics, .transactions {
+      margin-top: 2rem;
+      border: 1px solid #00ffcc44;
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 10px #00ffcc22;
+    }
+
+    .tokenomics h2, .transactions h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 8px #00ffcc;
+    }
+
+    .tx {
+      border-bottom: 1px solid #00ffcc33;
+      padding: 0.5rem 0;
+    }
+
+    .tx:last-child {
+      border-bottom: none;
+    }
+
+    .dex-chart {
+      margin-top: 2rem;
+      border: 2px dashed #00ffcc66;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 12px #00ffcc33;
+    }
+
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="matrix"></canvas>
+  <div class="container">
+    <h1>XYP3R T0K3N 3XP10R3R</h1>
+
+   
+
+    <div class="transactions">
+      <h2>L47357 TR4N54C710N5</h2>
+      <div class="tx">→ 1,200 XYP3R sent from <code>Fg2...7Dk</code> to <code>HX9...qPz</code></div>
+      <div class="tx">→ 5,000 XYP3R swapped via DEX @ 0.0032 USD</div>
+      <div class="tx">→ Wallet <code>Xy5...K91</code> received 300 Airdrop</div>
+    </div>
+
+    <div class="dex-chart">
+      <iframe src="https://dexscreener.com/solana/YOUR_TOKEN_ADDRESS_HERE"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // Matrix Effect
+    const canvas = document.querySelector(".matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "XYPER0101@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00ffcc";
+      ctx.font = fontSize + "px Courier New";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+    window.addEventListener("resize", () => location.reload());
+
+    // Transaction Rotation
+    const transactions = [
+      '→ 1,200 XYP3R sent from <code>Fg2...7Dk</code> to <code>HX9...qPz</code>',
+      '→ 5,000 XYP3R swapped via DEX @ 0.0032 USD',
+      '→ Wallet <code>Xy5...K91</code> received 300 Airdrop',
+      '→ 9,000 XYP3R burned from <code>Dev...000</code>',
+      '→ 13,700 XYP3R sent to <code>Lp0...Dex</code> liquidity pool',
+      '→ <code>Zf7...9PL</code> claimed airdrop: 800 XYP3R',
+      '→ Governance vote submitted from <code>Gv1...Tz5</code>'
+    ];
+
+    let txIndex = 0;
+    const txContainer = document.querySelector(".transactions");
+
+    function rotateTransactions() {
+      txIndex = (txIndex + 1) % transactions.length;
+      const next = (txIndex + 1) % transactions.length;
+      const next2 = (txIndex + 2) % transactions.length;
+
+      txContainer.innerHTML = `
+        <h2>L47357 TR4N54C710N5</h2>
+        <div class="tx">${transactions[txIndex]}</div>
+        <div class="tx">${transactions[next]}</div>
+        <div class="tx">${transactions[next2]}</div>
+      `;
+    }
+
+    setInterval(rotateTransactions, 3000);
+  </script>
+</body>
+</html>

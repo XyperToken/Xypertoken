@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>H0W 17 W0RK5 // D3CRYPT</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .encrypted-box, .decrypted-box {
+      width: 90%;
+      max-width: 800px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #00ffcc44;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: left;
+      box-shadow: 0 0 15px #00ffcc55;
+      white-space: pre-wrap;
+      /* preserve formatting */
+    }
+    .decrypted-box {
+      display: none;
+      line-height: 1.6;
+      min-height: 400px; /* за да не скача при печат */
+      font-size: 0.95rem;
+    }
+    .decrypt-btn {
+      margin-top: 2rem;
+      background-color: #00ffcc;
+      color: #000;
+      border: none;
+      padding: 1rem 2rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px #00ffcc88;
+      transition: 0.3s ease;
+    }
+    .decrypt-btn:hover {
+      background-color: #00ccaa;
+    }
+    .encrypted-text {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      line-height: 1.6;
+    }
+    .section-title {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="encrypted-box">
+    <div class="section-title">// 3NCRYPT3D PR0T0C0L</div>
+    <div class="encrypted-text">
+      ░█▀█░░░█▀▄░░░█▀▀░░░█░█░░░█▀▀░░░█▀▄░░░█▀▀<br />
+      ░█▀█░░░█░█░░░█▀▀░░░█░█░░░█▀▀░░░█▀▄░░░▀▀█<br />
+      ░▀░▀░░░▀▀░░░░▀░░░░░▀▀▀░░░▀▀▀░░░▀░▀░░░▀▀▀<br /><br />
+      — ▓43414▓ D3CRYPT 70 R34L17Y_<br />
+      — ▓21489▓ R3V34L 7H3 M0V3M3N7<br />
+      — ▓00110▓ S1GN4L 1NTRCPTD... W41T<br />
+    </div>
+    <button class="decrypt-btn" onclick="decryptMessage()">D3CRYPT</button>
+  </div>
+
+  <div class="decrypted-box" id="decryptedBox"></div>
+
+  <script>
+    const decryptedContent = `
+
+
+0ur pl4tf0rm 1s bu1lt 0n th3 S0l4n4 bl0ckch41n, 4 h1gh-p3rf0rm4nc3 d3c3ntr4l1z3d n3tw0rk kn0wn f0r 1ts 10w f33s, l0w l4t3ncy, 4nd sc4l4b1l1ty. S0l4n4 1s ch0s3n b3c4us3 1t 3n4bl3s us t0 d3l1v3r 4 s33ml3ss 4nd 3ff1c13nt us3r 3xp3r13nc3, 3ss3nt14l f0r c0mmun1t13s wh0 4r3 p4ssi0n4t3 4b0ut crypt0.
+
+0ur pl4tf0rm 15 d3s1gn3d f0r p30pl3 wh0 l0v3 crypt0gr4ph1c m3ss4g1ng 4nd 3nj0y th3 ch4ll3ng3 0f d3crypt1ng c0mpl3x c0d3s. Us3rs s0lv3 crypt1c pUzzle5, 3arn t0k3ns, 4nd b3c0m3 4ct1v3 p4rtn3rs 1n 0ur crYpt0 c0mmun1ty.
+
+3v3ry w33k, pUzZl3s g3t m0r3 c0mpl3x 4nd ch4ll3ng1ng, 0ff3r1ng 0pp0rtun1t13s t0 34rn 3v3n m0r3 r3w4rds. Th3 t0k3n0m1c5 0f 0ur pr0j3ct 4r3 c4r3fully d3s1gn3d t0 r3w4rd c0mmun1ty 1nv0lv3m3nt 4nd sUst41n l0ng-t3rm gr0wth.
+
+A t0t4l 0f 100 m1ll10n t0k3ns 1s 4ll0c4t3d f0r r3w4rd1ng th3 c0mmun1ty f0r d3crypt3d m3ss4g3s. 50 m1ll10n t0k3ns w1ll b3 l0ck3d t0 3nsur3 pr0j3ct st4b1l1ty, wh1l3 th3 r3m41n1ng 50 m1ll10n w1ll b3 5u8j3ct t0 w33kly bUrn1ng 4ft3r 3v3ry pUzZl3 15 s0lv3d 4nd 4 n3w crypt1c m3ss4g3 15 r3l34s3d.
+
+W3 w1ll 1nt3gr4t3 v4r10us crypt0 sYst3ms t0 cr34t3 0ur ch4ll3ng3s, 1nclud1ng:
+ - Caesar C1ph3r
+ - V1gn3r3 C1ph3r
+ - Substitution Ciphers
+ - Base64 Enc0d1ng
+ - Hexadecimal and B1n4ry Enc0d1ng
+ - Mod3rn Symmetric and Asymmetric Cryptography
+W#4T’5 1N 4 N4M3? — XYP3R Unl0ck3d
+Th3 n4m3 XYP3R c0m3s fr0m th3 c0mb1n4t10n 0f “X” & “CYPHER” — wh3r3 “X” s1gn1f135 th3 unkn0wn, th3 m1$tery, th3 n3xt-l3v3l.
+CYPHER 15 th3 cl4ss1c t3rm f0r crypt0gr4ph1c m3th0d$ — th3 4r7 & sc13nc3 0f s3cur1ng c0mmun1c4t10n by turning pl41n t3xt 1nt0 s3cr3t c0d3$.
+S0, wh3n u pu7 th3m t0g3th3r — X + CYPHER = XYP3R — 1t’5 4 n4m3 th4t r3pr3$3n75 th3 unl34sh1ng 0f s3cr3t kn0wl3dg3 & th3 p0w3r 2 d3crypt th3 unkn0wn.
+It’s n0t ju$7 4 n4m3 — 1t’5 4 ch4ll3ng3, 4 symb0l f0r th0s3 wh0 r3fuse t0 c0nform & d3c1ph3r th3 m355ag3 b3h1nd th3 m4tr1x.
+B3c0m3 4 XYP3R — th3 k3yp0rt4l t0 th3 c0d3d r34lm.
+Crypt1c pHr4s3s w1ll b3 p0st3d r3gul4rly 0n 0ur Tw1tt3r 4nd T3l3gram ch4nn3ls. Us3rs n33d t0 d3crypt th3s3 phras3s 4nd 3nt3r th3m 1nt0 0ur d3crypt3r 0n th1s s1t3 t0 qu4l1fy f0r th3 41rdrop r3w4rds.
+
+J01n 0ur c0mmun1ty, t4k3 0n th3 ch4ll3ng3s, 4nd 3arn y0ur sh4r3 0f th3 t0k3ns wh1l3 h4v1ng fun w1th crypt0!
+`;
+
+    function decryptMessage() {
+      document.querySelector('.encrypted-box').style.display = 'none';
+      const box = document.getElementById('decryptedBox');
+      box.style.display = 'block';
+      typeWriter(decryptedContent, box, 0);
+    }
+
+    function typeWriter(text, element, index) {
+      if (index < text.length) {
+        element.innerHTML += text.charAt(index) === '\n' ? '<br>' : text.charAt(index);
+        setTimeout(() => typeWriter(text, element, index + 1), 15);
+      }
+    }
+  </script>
+
+</body>
+</html>

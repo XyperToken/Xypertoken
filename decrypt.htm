@@ -1,0 +1,182 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>XYP3R D3CRYPT & 41RDROP</title>
+<style>
+  body {
+    background: #0d0d0d;
+    color: #00ffcc;
+    font-family: 'Courier New', monospace;
+    padding: 2rem;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+  }
+  .container {
+    background: #111;
+    border: 1px solid #00ffcc55;
+    border-radius: 12px;
+    padding: 2rem 3rem;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 0 20px #00ffcc33;
+  }
+  h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 12px #00ffcc;
+  }
+  label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #00ffccdd;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    margin-top: 0.3rem;
+    font-family: monospace;
+    font-size: 1rem;
+    background: #000;
+    border: 1px solid #00ffcc88;
+    border-radius: 8px;
+    color: #00ffcc;
+  }
+  button {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background: #00ffcc;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #000;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #00ccaa;
+  }
+  .hidden {
+    display: none;
+  }
+  .message {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #00ffcc;
+    text-align: center;
+    user-select: none;
+  }
+  #followSection button {
+    width: 48%;
+    margin: 0 1% 1rem 1%;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>XYP3R D3CRYPT & 41RDROP</h1>
+
+    <label for="encryptedInput">3N73R 3NCRYPT3D W0RD:</label>
+    <input type="text" id="encryptedInput" placeholder="3.g. 4B7X9Z" autocomplete="off" />
+
+    <label for="keyInput">3N73R K3Y (P455W0RD):</label>
+    <input type="text" id="keyInput" placeholder="3.g. 7H3K3Y" autocomplete="off" />
+
+    <button id="verifyBtn" onclick="verifyInputs()">V3R1FY</button>
+
+    <div id="followSection" class="hidden" style="margin-top: 1.5rem; text-align: center;">
+      <button id="twitterFollowBtn">F0ll0w Tw1tt3r</button>
+      <button id="telegramFollowBtn">F0ll0w T3l3gram</button>
+      <div id="followMessage" class="message" style="margin-top: 1rem;"></div>
+    </div>
+
+    <div id="successSection" class="hidden" style="margin-top: 2rem;">
+      <label for="walletInput">3N73R W4LL37 4DDR355:</label>
+      <input type="text" id="walletInput" placeholder="Solana w4ll37 44-ch4r 4ddr355" autocomplete="off" />
+      <button id="claimBtn" onclick="claimAirdrop()">CL41M 41RDROP</button>
+    </div>
+
+    <div id="confirmationMessage" class="message hidden"></div>
+  </div>
+
+  <script>
+    const correctEncrypted = "MESSAGE";
+    const correctKey = "XYP3RC1PH3R";
+
+    const twitterURL = "https://x.com/XyperTOKEN";
+    const telegramURL = "https://t.me/XyperTokenSol";
+
+    let twitterFollowed = false;
+    let telegramFollowed = false;
+
+    function verifyInputs() {
+      const encrypted = document.getElementById('encryptedInput').value.trim().toUpperCase();
+      const key = document.getElementById('keyInput').value.trim().toUpperCase();
+
+      if (!encrypted || !key) {
+        alert("Pl3453 3n73r b07h th3 3ncrypt3d w0rd 4nd th3 k3y.");
+        return;
+      }
+
+      if (encrypted === correctEncrypted && key === correctKey) {
+        // Деактивираме полетата и бутона
+        document.getElementById('encryptedInput').disabled = true;
+        document.getElementById('keyInput').disabled = true;
+        document.getElementById('verifyBtn').disabled = true;
+
+        // Показваме бутоните за follow
+        document.getElementById('followSection').classList.remove('hidden');
+      } else {
+        alert("1nc0rr3ct c0d3 0r k3y. Try 4g41n!");
+      }
+    }
+
+    document.getElementById('twitterFollowBtn').addEventListener('click', () => {
+      window.open(twitterURL, "_blank");
+      twitterFollowed = true;
+      document.getElementById('followMessage').textContent = "✅ Th4nk y0u f0r f0ll0w1ng 0ur Tw1tt3r!";
+      checkFollowStatus();
+    });
+
+    document.getElementById('telegramFollowBtn').addEventListener('click', () => {
+      window.open(telegramURL, "_blank");
+      telegramFollowed = true;
+      document.getElementById('followMessage').textContent = "✅ Th4nk y0u f0r j01n1ng 0ur T3l3gram ch4nn3l!";
+      checkFollowStatus();
+    });
+
+    function checkFollowStatus() {
+      if (twitterFollowed && telegramFollowed) {
+        document.getElementById('successSection').classList.remove('hidden');
+        document.getElementById('followSection').classList.add('hidden');
+      }
+    }
+
+    function claimAirdrop() {
+      const wallet = document.getElementById('walletInput').value.trim();
+
+      const base58Regex = /^[1-9A-HJ-NP-Za-km-z]+$/;
+
+      if (wallet.length !== 44 || !base58Regex.test(wallet)) {
+        alert("Pl3453 3nt3r 4 v4l1d S0l4n4 w4ll37 4ddr3ss.");
+        return;
+      }
+
+      document.getElementById('confirmationMessage').textContent = "🎉 Y0ur cl41m h45 b33n s1bm1tt3d! Pl3453 w41t f0r d15tr1but10n.";
+      document.getElementById('confirmationMessage').classList.remove('hidden');
+
+      document.getElementById('claimBtn').disabled = true;
+      document.getElementById('walletInput').disabled = true;
+    }
+  </script>
+</body>
+</html>
