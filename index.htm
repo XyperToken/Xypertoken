@@ -1,3 +1,4 @@
+<!-- ЦЕЛИЯТ КОД С ДОБАВЕН R04DM4P БУТОН -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,39 +86,19 @@
     box-shadow: 0 0 40px #00ffee;
   }
 
-  /* Глитч ефект */
   @keyframes glitch {
-    0% {
-      clip-path: inset(0 0 0 0);
-      transform: translate(0);
-    }
-    20% {
-      clip-path: inset(10% 0 85% 0);
-      transform: translate(-3px, -3px);
-    }
-    40% {
-      clip-path: inset(85% 0 10% 0);
-      transform: translate(3px, 3px);
-    }
-    60% {
-      clip-path: inset(10% 0 85% 0);
-      transform: translate(-3px, 3px);
-    }
-    80% {
-      clip-path: inset(85% 0 10% 0);
-      transform: translate(3px, -3px);
-    }
-    100% {
-      clip-path: inset(0 0 0 0);
-      transform: translate(0);
-    }
+    0% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    20% { clip-path: inset(10% 0 85% 0); transform: translate(-3px, -3px); }
+    40% { clip-path: inset(85% 0 10% 0); transform: translate(3px, 3px); }
+    60% { clip-path: inset(10% 0 85% 0); transform: translate(-3px, 3px); }
+    80% { clip-path: inset(85% 0 10% 0); transform: translate(3px, -3px); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0); }
   }
 
   .glitching {
     animation: glitch 0.5s linear infinite;
   }
 
-  /* Втори екран - първоначално скрит */
   #main-content {
     display: none;
     position: absolute;
@@ -144,8 +125,6 @@
     z-index: -2;
     border-radius: 12px;
   }
-
-  /* Анимирани редове с крипто текст, които се движат наляво и надясно и мигат */
 
   .crypto-msg {
     position: absolute;
@@ -187,8 +166,6 @@
     0%, 100% { opacity: 0.3; }
     50% { opacity: 0.6; }
   }
-
-  /* Заглавие и текст с ефект на бавно изчезване/поява */
 
   #main-content h1 {
     font-size: 3rem;
@@ -278,13 +255,13 @@
       <a href="airdrop.htm" class="btn">41rdr0p 1n5truc710n5</a>
       <a href="howitworks.htm" class="btn">H0w 17 W0rk5</a>
       <a href="explorer.htm" class="btn">Xyp3r 3xpL0r3r</a>
+      <a href="roadmap.htm" class="btn">R04DM4P</a>
       <a href="https://t.me/XyperTokenSol" target="_blank" class="btn">J01n 73l3gr4m</a>
       <a href="https://twitter.com/XyperToken" target="_blank" class="btn">F0ll0w 0n Tw1773r</a>
     </div>
   </div>
 
 <script>
-  // Matrix effect setup
   const canvas = document.querySelector(".matrix");
   const ctx = canvas.getContext("2d");
   let width, height;
@@ -325,7 +302,6 @@
 
   let matrixInterval = setInterval(drawMatrix, 50);
 
-  // Глитч ефект при натискане
   const decryptBtn = document.getElementById("decrypt-btn");
   const overlay = document.getElementById("overlay");
   const mainContent = document.getElementById("main-content");
@@ -350,7 +326,6 @@
 
     clearInterval(matrixInterval);
 
-    // Показваме основното съдържание, което вече е центрирано с CSS
     mainContent.style.display = "block";
     mainContent.style.opacity = 0;
     mainContent.style.transition = "opacity 1.5s ease";
