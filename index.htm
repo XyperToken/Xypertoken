@@ -225,54 +225,114 @@
     50% { opacity: 1; }
   }
 
-  /* ✅ Mobile responsiveness */
-  @media screen and (max-width: 768px) {
-    .title {
-      font-size: 2rem;
-    }
-
-    .crypto-text {
-      font-size: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    button.decrypt-btn {
-      font-size: 1.2rem;
-      padding: 0.8rem 2rem;
-    }
-
-    #main-content {
-      padding: 1rem;
-      width: 90vw;
-    }
-
-    #main-content h1 {
-      font-size: 2rem;
-    }
-
-    #main-content p {
-      font-size: 1rem;
-    }
-
-    .btn {
-      font-size: 0.9rem;
-      padding: 0.8rem 1.5rem;
-    }
-
-    .crypto-msg {
-      font-size: 0.8rem;
-    }
-  }
-
 </style>
 </head>
 <body>
-  <!-- Същият HTML код -->
-  <!-- няма нужда да се променя, оставям го както си го дал -->
-  <!-- JS също остава непокътнат -->
+  <canvas class="matrix"></canvas>
 
-<!-- [HTML И SCRIPT блокът ти идва тук без промяна] -->
-<!-- (за да не повтарям 300 реда, приеми че JS и HTML остава абсолютно същият) -->
+  <div class="overlay" id="overlay">
+    <div class="title">XYP3R C0D3D P0RT4L</div>
+    <div class="crypto-text" id="crypto-text">
+      47F9 A1C3B7 XYP3R-K3Y-9A2F // D3CRYPT 7H3 S1GN4L // 01101000 01100101 01101100 01101100 01101111
+    </div>
+    <button class="decrypt-btn" id="decrypt-btn">D3CRYPT SITE</button>
+  </div>
 
+  <div id="main-content">
+    <div class="crypto-msg scroll-left">
+      72F4A1 B6X9Z0 XYP3R-C0D3 HxYXIyAIJIWMIxAXgSGEt== // F0ll0w 7h3 51gn4l // 01001000 01100101 01101100 01101100 01101111
+    </div>
+    <div class="crypto-msg scroll-right">
+      N4 BL0CKCH41N // 3NCRYPT3D C0MMUN1C4710N // K3Y M4N4G3M3NT 4ND 5YMM3TR1C C1PH3R5
+    </div>
+    <h1>W3LC0M3 T0 XYP3R</h1>
+    <p>
+      3nt3r 7h3 3ncrypt3d cyb3r-r34lm. 4 pl4c3 wh3r3 1nf0rm4t10n 15 l0ck3d, 4nd 0nly 7h3 cur10u5 w1ll unc0v3r 7h3 7ruth. F0ll0w 7h3 riddl3s. Br34k 7h3 ch41n5. Cl41m y0ur r3w4rd5.
+    </p>
+    <div class="btn-group">
+      <a href="decrypt.htm" class="btn">D3crypt P0rt4l</a>
+      <a href="airdrop.htm" class="btn">41rdr0p 1n5truc710n5</a>
+      <a href="howitworks.htm" class="btn">H0w 17 W0rk5</a>
+      <a href="explorer.htm" class="btn">Xyp3r 3xpL0r3r</a>
+      <a href="roadmap.htm" class="btn">R04DM4P</a>
+      <a href="https://t.me/XyperTokenSol" target="_blank" class="btn">J01n 73l3gr4m</a>
+      <a href="https://twitter.com/XyperToken" target="_blank" class="btn">F0ll0w 0n Tw1773r</a>
+    </div>
+  </div>
+
+<script>
+  const canvas = document.querySelector(".matrix");
+  const ctx = canvas.getContext("2d");
+  let width, height;
+  let columns;
+  const fontSize = 16;
+  let drops;
+
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    columns = Math.floor(width / fontSize);
+    drops = new Array(columns).fill(1);
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "#00ffcc";
+    ctx.font = fontSize + "px Share Tech Mono";
+
+    for(let i = 0; i < drops.length; i++) {
+      const char = letters.charAt(Math.floor(Math.random() * letters.length));
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+      if(drops[i] * fontSize > height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  let matrixInterval = setInterval(drawMatrix, 50);
+
+  const decryptBtn = document.getElementById("decrypt-btn");
+  const overlay = document.getElementById("overlay");
+  const mainContent = document.getElementById("main-content");
+
+  function glitchAnimation(duration = 1200) {
+    return new Promise(resolve => {
+      overlay.classList.add("glitching");
+      setTimeout(() => {
+        overlay.classList.remove("glitching");
+        resolve();
+      }, duration);
+    });
+  }
+
+  decryptBtn.addEventListener("click", async () => {
+    decryptBtn.disabled = true;
+
+    await glitchAnimation();
+
+    overlay.style.transition = "opacity 1s ease";
+    overlay.style.opacity = 0;
+
+    clearInterval(matrixInterval);
+
+    mainContent.style.display = "block";
+    mainContent.style.opacity = 0;
+    mainContent.style.transition = "opacity 1.5s ease";
+    setTimeout(() => {
+      mainContent.style.opacity = 1;
+      overlay.style.pointerEvents = "none";
+    }, 100);
+  });
+</script>
 </body>
 </html>
