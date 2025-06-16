@@ -7,18 +7,18 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
       background-color: #0d0d0d;
       color: #00ffcc;
       font-family: 'Share Tech Mono', monospace;
-      height: 100%;
-      min-height: 100vh;
+      overflow: hidden;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      position: relative;
     }
 
     canvas.matrix {
@@ -26,57 +26,88 @@
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      z-index: -1;
+      z-index: 1;
       pointer-events: none;
+      display: none;
+    }
+
+    .floating-text {
+      position: fixed;
+      font-size: 0.9rem;
+      color: rgba(0, 255, 204, 0.2);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 2;
+      animation: moveText linear infinite;
+      font-weight: bold;
+      text-shadow: 0 0 4px #00ffee44;
+    }
+
+    @keyframes moveText {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(100vw); }
     }
 
     .overlay {
-      width: 100%;
-      min-height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 2rem;
       text-align: center;
-      padding: 2rem 1rem;
-      position: fixed;
-      top: 0;
-      left: 0;
+      user-select: none;
+      transition: background 1.5s ease, opacity 1s ease;
+      width: 100%;
+      height: 100%;
       z-index: 10;
-      transition: opacity 1s ease;
     }
 
     .title {
-      font-size: 2.5rem;
+      font-size: 3rem;
       letter-spacing: 0.2em;
       text-shadow: 0 0 20px #00ffcc;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.3em 0.6em;
+      border-radius: 8px;
     }
 
     .crypto-text {
-      font-size: 1rem;
-      max-width: 90%;
+      font-size: 1.2rem;
+      line-height: 1.5;
+      max-width: 600px;
+      margin-bottom: 3rem;
       color: #00ffccaa;
-      margin-bottom: 2rem;
       letter-spacing: 0.15em;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 0.3em 0.5em;
+      border-radius: 6px;
     }
 
     button.decrypt-btn {
-      font-size: 1.4rem;
-      padding: 0.8rem 2rem;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #00ffcc, #009999);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.8rem;
+      background: rgba(0, 255, 204, 0.7);
       border: none;
+      border-radius: 15px;
+      padding: 1rem 3rem;
       color: #000;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 0 25px #00ffccaa;
       letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .glitching {
-      animation: glitch 0.5s linear infinite;
+    button.decrypt-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px #00ffee;
+      background: rgba(0, 255, 204, 0.9);
     }
 
     @keyframes glitch {
@@ -88,178 +119,189 @@
       100% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
+    .glitching {
+      animation: glitch 0.5s linear infinite;
+    }
+
     #main-content {
       display: none;
-      opacity: 0;
-      max-width: 90%;
-      padding: 2rem;
-      background: #0d0d0d;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(13, 13, 13, 0.5);
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
       text-align: center;
+      padding: 2rem;
+      width: 80vw;
+      max-width: 900px;
       border-radius: 12px;
       box-shadow: 0 0 40px #00ffccaa;
-      z-index: 2;
-      min-height: 80vh;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      z-index: 5;
     }
 
     #main-content h1 {
-      font-size: 2rem;
+      font-size: 3rem;
       text-shadow: 0 0 15px #00ffcc;
       margin-bottom: 1rem;
     }
 
     #main-content p {
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 2rem;
-      color: #00ffccaa;
+      font-size: 1.2rem;
+      max-width: 600px;
+      text-align: center;
+      line-height: 1.6;
+      font-weight: bold;
+      margin: 0 auto 2rem auto;
     }
 
     .btn-group {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.7rem;
+      gap: 1rem;
     }
 
     .btn {
-      padding: 0.7rem 1.5rem;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      background: linear-gradient(135deg, #00ffcc, #00ccff);
+      background: rgba(0, 255, 204, 0.7);
       color: #000;
-      border-radius: 10px;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
       font-weight: bold;
+      cursor: pointer;
       text-decoration: none;
       box-shadow: 0 0 15px #00ffcc99;
-      transition: transform 0.2s, box-shadow 0.2s;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
     .btn:hover {
       transform: scale(1.05);
       box-shadow: 0 0 25px #00ffcc;
-    }
-
-    @media (max-width: 600px) {
-      .title {
-        font-size: 1.8rem;
-      }
-
-      .crypto-text {
-        font-size: 0.9rem;
-      }
-
-      button.decrypt-btn {
-        font-size: 1.2rem;
-        padding: 0.6rem 1.5rem;
-      }
-
-      #main-content h1 {
-        font-size: 1.5rem;
-      }
-
-      #main-content p {
-        font-size: 0.9rem;
-      }
-
-      .btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.75rem;
-      }
+      background: rgba(0, 255, 204, 0.9);
     }
   </style>
 </head>
 <body>
-  <canvas class="matrix"></canvas>
+<canvas class="matrix" id="matrixCanvas"></canvas>
 
-  <div class="overlay" id="overlay">
-    <div class="title">XYP3R C0D3D P0RT4L</div>
-    <div class="crypto-text">47F9 A1C3B7 XYP3R-K3Y-9A2F // D3CRYPT 7H3 S1GN4L</div>
-    <button class="decrypt-btn" id="decrypt-btn">D3CRYPT SITE</button>
+<div class="overlay" id="overlay">
+  <div class="title">XYP3R C0D3D P0RT4L</div>
+  <div class="crypto-text" id="crypto-text">
+    47F9 A1C3B7 XYP3R-K3Y-9A2F // D3CRYPT 7H3 S1GN4L // 01101000 01100101 01101100 01101100 01101111
   </div>
+  <button class="decrypt-btn" id="decrypt-btn">D3CRYPT SITE</button>
+</div>
 
-  <div id="main-content">
-    <h1>W3LC0M3 T0 XYP3R</h1>
-    <p>3nt3r 7h3 3ncrypt3d cyb3r-r34lm. F0ll0w 7h3 riddl3s. Br34k 7h3 ch41n5.</p>
-    <div class="btn-group">
-      <a href="decrypt.htm" class="btn">D3crypt</a>
-      <a href="airdrop.htm" class="btn">41rdr0p</a>
-      <a href="howitworks.htm" class="btn">H0w 17 W0rk5</a>
-      <a href="explorer.htm" class="btn">3xpL0r3r</a>
-      <a href="roadmap.htm" class="btn">R04DM4P</a>
-      <a href="https://t.me/XyperTokenSol" target="_blank" class="btn">73l3gr4m</a>
-      <a href="https://twitter.com/XyperToken" target="_blank" class="btn">Tw1773r</a>
-    </div>
+<div id="main-content">
+  <h1>W3LC0M3 T0 XYP3R</h1>
+  <p>
+    3nt3r 7h3 3ncrypt3d cyb3r-r34lm. 4 pl4c3 wh3r3 1nf0rm4t10n 15 l0ck3d, 4nd 0nly 7h3 cur10u5 w1ll unc0v3r 7h3 7ruth. F0ll0w 7h3 riddl3s. Br34k 7h3 ch41n5. Cl41m y0ur r3w4rd5.
+  </p>
+  <div class="btn-group">
+    <a href="decrypt.htm" class="btn">D3crypt P0rt4l</a>
+    <a href="airdrop.htm" class="btn">41rdr0p</a>
+    <a href="howitworks.htm" class="btn">H0w 17 W0rk5</a>
+    <a href="explorer.htm" class="btn">3xpL0r3r</a>
+    <a href="roadmap.htm" class="btn">R04DM4P</a>
+    <a href="https://t.me/XyperTokenSol" target="_blank" class="btn">73l3gr4m</a>
+    <a href="https://twitter.com/XyperToken" target="_blank" class="btn">Tw1773r</a>
   </div>
+</div>
 
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      const canvas = document.querySelector(".matrix");
-      const ctx = canvas.getContext("2d");
-      const fontSize = 16;
-      let width, height, columns, drops;
+<script>
+  const canvas = document.getElementById("matrixCanvas");
+  const ctx = canvas.getContext("2d");
+  const fontSize = 16;
+  let columns;
+  let drops = [];
 
-      function resizeCanvas() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        columns = Math.floor(width / fontSize);
-        drops = new Array(columns).fill(1);
+  function startMatrix() {
+    canvas.style.display = "block";
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    columns = Math.floor(canvas.width / fontSize);
+    drops = Array(columns).fill(1);
+    setInterval(drawMatrix, 50);
+  }
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(0, 255, 204, 0.2)";
+    ctx.font = fontSize + "px 'Share Tech Mono'";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+      const char = text[Math.floor(Math.random() * text.length)];
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
       }
+      drops[i]++;
+    }
+  }
 
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
+  const decryptBtn = document.getElementById("decrypt-btn");
+  const overlay = document.getElementById("overlay");
+  const mainContent = document.getElementById("main-content");
 
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+  decryptBtn.addEventListener("click", async () => {
+    decryptBtn.disabled = true;
+    overlay.classList.add("glitching");
 
-      function drawMatrix() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = "#00ffcc";
-        ctx.font = fontSize + "px Share Tech Mono";
+    setTimeout(() => {
+      overlay.classList.remove("glitching");
+      overlay.style.opacity = 0;
+      overlay.style.pointerEvents = "none";
 
-        for(let i = 0; i < drops.length; i++) {
-          const char = letters.charAt(Math.floor(Math.random() * letters.length));
-          ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      startMatrix(); // стартира матрицата
+      startFloatingText(); // стартира плаващите текстове
 
-          if(drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
-          drops[i]++;
-        }
-      }
+      mainContent.style.display = "block";
+      mainContent.style.opacity = 0;
+      mainContent.style.transition = "opacity 1.5s ease";
+      setTimeout(() => {
+        mainContent.style.opacity = 1;
+      }, 100);
+    }, 1200);
+  });
 
-      let matrixInterval = setInterval(drawMatrix, 50);
+  function startFloatingText() {
+    const phrases = [
+      "solana tx confirmed",
+      "BLOCKCHAIN 0x9f82a...",
+      "XYP3R::ALPHA-NET",
+      "C0NN3CT3D: NODE #412",
+      "decrypting payload",
+      "ledger update...",
+      "CRY-P7O B4S3 R3AD",
+      ">>> 0xHASH LINKED",
+      "vault :: unlocked",
+      "DATASTREAM > 128kbps",
+      "encrypt(tx + wallet)",
+      "solscan.live/node",
+      "TXN_FEE::0.00012SOL",
+      "NFT_TOKEN::DETECTED",
+      "s0lana::block#4532"
+    ];
 
-      const decryptBtn = document.getElementById("decrypt-btn");
-      const overlay = document.getElementById("overlay");
-      const mainContent = document.getElementById("main-content");
+    setInterval(() => {
+      const span = document.createElement("div");
+      span.className = "floating-text";
+      span.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+      span.style.top = Math.random() * 100 + "vh";
+      span.style.animationDuration = (8 + Math.random() * 10) + "s";
+      document.body.appendChild(span);
 
-      function glitchAnimation(duration = 1000) {
-        return new Promise(resolve => {
-          overlay.classList.add("glitching");
-          setTimeout(() => {
-            overlay.classList.remove("glitching");
-            resolve();
-          }, duration);
-        });
-      }
-
-      decryptBtn.addEventListener("click", async () => {
-        decryptBtn.disabled = true;
-        await glitchAnimation();
-
-        overlay.style.opacity = 0;
-
-        setTimeout(() => {
-          overlay.style.display = "none";
-          clearInterval(matrixInterval);
-          mainContent.style.display = "flex";
-          mainContent.style.opacity = 1;
-        }, 1000);
-      });
-    });
-  </script>
+      setTimeout(() => span.remove(), 20000);
+    }, 600);
+  }
+</script>
 </body>
 </html>
